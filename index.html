@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05060D">
+<meta name="robots" content="noindex, nofollow">
+<title>D-DAY 2026 - Accueil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060D;--card:#0B1020;--card2:#111830;--line:#222A45;--ink:#F4F6FB;--muted:#A7AEC4;--red:#E4252D;--blue:#2E6BFF;--okb:#DDF6E9;--okt:#0E4A2E;--warnb:#FFF1D6;--warnt:#5C3B06;--errb:#FDE3E3;--errt:#6B1C1C}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.app{max-width:480px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:14px;min-height:100%}
+header{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.03em}.logo span{color:var(--red)}
+.count{font-size:13px;color:var(--muted)}.count b{color:var(--ink);font-size:18px}
+.horizon{height:2px;background:linear-gradient(90deg,var(--red),#fff,var(--blue));border-radius:2px}
+.cam{position:relative;border-radius:18px;overflow:hidden;background:#000;aspect-ratio:1/1;border:1px solid var(--line)}
+#reader{width:100%;height:100%;border:0!important}
+#reader video{display:block;object-fit:cover!important;width:100%!important;height:100%!important}
+.frame{position:absolute;inset:18%;border:3px solid rgba(255,255,255,.85);border-radius:18px;pointer-events:none}
+.start{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:var(--card);text-align:center;padding:20px}
+.start p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+.btn{appearance:none;border:0;cursor:pointer;background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:16px;padding:14px 22px;border-radius:12px}
+.btn2{appearance:none;cursor:pointer;background:transparent;color:var(--ink);border:1px solid #3A4262;font:inherit;font-weight:600;font-size:14px;padding:11px 16px;border-radius:12px}
+.hint{text-align:center;color:var(--muted);font-size:14px;margin:0}
+.res{border-radius:18px;padding:22px 20px;display:none;animation:pop .22s ease-out}
+.res.show{display:block}
+.res.ok{background:var(--okb);color:var(--okt)}
+.res.warn{background:var(--warnb);color:var(--warnt)}
+.res.err{background:var(--errb);color:var(--errt)}
+.res .k{font-size:13px;font-weight:700;margin:0 0 4px}
+.res .n{font-size:28px;line-height:1.1;font-weight:800;letter-spacing:-.02em;margin:0 0 4px}
+.res .c{font-size:16px;font-weight:600;margin:0 0 12px}
+.res .d{font-size:14px;margin:0;line-height:1.55}
+.res .loading{font-size:15px;font-weight:600}
+.manual{display:flex;gap:8px}
+input{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1px solid #2F3858;border-radius:12px;padding:12px}
+input::placeholder{color:#6F7894}
+.manual input{flex:1;min-width:0;text-transform:uppercase}
+.manual input::placeholder{text-transform:none}
+.err{color:#FF9B9B;font-size:13px;margin:-4px 0 0}
+.err:empty{display:none}
+.foot{display:flex;justify-content:space-between;gap:8px;margin-top:auto}
+.gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px;z-index:10}
+.gate .box{width:100%;max-width:380px;display:flex;flex-direction:column;gap:12px}
+.gate h1{font-size:26px;font-weight:300;margin:0}.gate h1 b{font-weight:800}
+.gate p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+.gate label{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.res{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate" hidden>
+  <div class="box">
+    <h1>Accueil <b>D-DAY 2026</b></h1>
+    <p>Réservé à l'équipe d'accueil. Entrez le code communiqué par l'organisation.</p>
+    <label for="gkey">Code accueil</label>
+    <input id="gkey" type="password" autocomplete="off" placeholder="Code accueil">
+    <label for="gname">Votre prénom (facultatif)</label>
+    <input id="gname" type="text" autocomplete="off" placeholder="Samira">
+    <p class="err" id="gerr"></p>
+    <button class="btn" id="genter">Entrer</button>
+  </div>
+</div>
+
+<div class="app">
+  <header>
+    <span class="logo">disway<span>.</span> accueil</span>
+    <span class="count">Présents <b id="nb">-</b></span>
+  </header>
+  <div class="horizon"></div>
+
+  <div class="cam">
+    <div id="reader"></div>
+    <div class="frame" id="frame" hidden></div>
+    <div class="start" id="start">
+      <p>THE 4th D-DAY 2026<br>Jeudi 19 novembre 2026 - 18h à 23h<br>Cathédrale du Sacré-Cœur, Casablanca</p>
+      <button class="btn" id="go">Démarrer le scan</button>
+      <p id="camerr" style="color:#FF9B9B"></p>
+    </div>
+  </div>
+
+  <p class="hint" id="hint">Placez le QR code du billet dans le cadre</p>
+
+  <div class="res" id="res" role="status" aria-live="assertive"></div>
+
+  <div class="manual">
+    <input id="tok" placeholder="Code du billet, ex : DD26-7KQ9X" autocomplete="off" autocapitalize="characters">
+    <button class="btn2" id="check">Vérifier</button>
+  </div>
+  <p class="err" id="tokerr"></p>
+
+  <div class="foot">
+    <button class="btn2" id="list">Voir les présents</button>
+    <button class="btn2" id="logout">Changer de code</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+<script>
+(function(){
+  /* ========================= CONFIGURATION ========================= */
+  var API_URL = 'https://script.google.com/macros/s/COLLER_ICI_L_ID_DU_DEPLOIEMENT/exec';
+  var EVENT = { date: 'Jeudi 19 novembre 2026', place: 'Cathédrale du Sacré-Cœur, Casablanca' };
+  /* ================================================================= */
+
+  var LS_KEY = 'dday26-key', LS_NAME = 'dday26-name';
+  var qr = null, busy = false, timer = null;
+  var $ = function(id){ return document.getElementById(id); };
+
+  function store(k, v){ try{ if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); }catch(e){} }
+  function read(k){ try{ return localStorage.getItem(k) || ''; }catch(e){ return ''; } }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+  // Le code peut arriver dans le lien : .../dday-scan/#k=CODE (il n'est jamais écrit dans le repo).
+  var m = location.hash.match(/k=([^&]+)/);
+  if (m) { store(LS_KEY, decodeURIComponent(m[1])); history.replaceState(null, '', location.pathname); }
+
+  function api(params){
+    params.key = read(LS_KEY);
+    var q = Object.keys(params).map(function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(params[k] || ''); }).join('&');
+    return fetch(API_URL + '?' + q, { redirect: 'follow' }).then(function(r){
+      if (!r.ok) throw new Error('http');
+      return r.json();
+    });
+  }
+
+  function showGate(msg){
+    $('gate').hidden = false;
+    $('gerr').textContent = msg || '';
+    $('gname').value = read(LS_NAME);
+    setTimeout(function(){ $('gkey').focus(); }, 50);
+  }
+
+  $('genter').addEventListener('click', function(){
+    var k = $('gkey').value.trim();
+    if (!k) { $('gerr').textContent = 'Entrez le code accueil.'; return; }
+    $('gerr').textContent = '';
+    store(LS_KEY, k); store(LS_NAME, $('gname').value.trim());
+    $('genter').textContent = 'Vérification…';
+    api({ action: 'presents' }).then(function(d){
+      $('genter').textContent = 'Entrer';
+      if (!d.ok) { store(LS_KEY, null); $('gerr').textContent = 'Code incorrect.'; return; }
+      $('gate').hidden = true; $('gkey').value = '';
+      $('nb').textContent = d.count;
+    }).catch(function(){
+      $('genter').textContent = 'Entrer';
+      $('gerr').textContent = 'Pas de connexion internet. Réessayez.';
+    });
+  });
+  $('gkey').addEventListener('keydown', function(e){ if (e.key === 'Enter') $('genter').click(); });
+
+  function show(kind, html, vibrate){
+    var r = $('res');
+    r.className = 'res show ' + kind;
+    r.innerHTML = html;
+    if (vibrate && navigator.vibrate) navigator.vibrate(kind === 'ok' ? 80 : [60, 60, 60]);
+  }
+
+  function tokenFrom(text){
+    text = String(text || '').trim();
+    var mm = text.match(/[?&]t=([A-Za-z0-9-]+)/);
+    return (mm ? mm[1] : text).toUpperCase().replace(/[^A-Z0-9-]/g, '');
+  }
+
+  function handle(raw){
+    var t = tokenFrom(raw);
+    if (!t) return;
+    show('warn', '<p class="loading">Vérification du billet ' + esc(t) + '…</p>');
+    return api({ action: 'checkin', t: t, by: read(LS_NAME) }).then(function(d){
+      if (typeof d.count === 'number') $('nb').textContent = d.count;
+      if (!d.ok && d.error === 'bad_key') { store(LS_KEY, null); showGate('Le code accueil a changé. Entrez le nouveau code.'); return; }
+      if (!d.ok) {
+        show('err', '<p class="k">Billet non reconnu</p><p class="n">Accès à vérifier</p><p class="d">Le code <b>' + esc(t) + '</b> ne figure pas dans la liste des invités. Orientez la personne vers le comptoir d\'accueil.</p>', true);
+        return;
+      }
+      var g = d.guest, name = esc((g.prenom + ' ' + g.nom).trim()), soc = esc(g.societe);
+      if (d.already) {
+        show('warn', '<p class="k">Déjà enregistré à ' + esc(d.at) + '</p><p class="n">' + name + '</p><p class="c">' + soc + '</p><p class="d">Ce billet a déjà été scanné. Vérifiez l\'identité si besoin.</p>', true);
+        return;
+      }
+      var note = g.statut === 'Confirmé' ? '' : '<br><b>Attention : statut "' + esc(g.statut) + '" dans la liste.</b>';
+      show(g.statut === 'Confirmé' ? 'ok' : 'warn',
+        '<p class="k">Bienvenue au D-DAY 2026</p><p class="n">' + name + '</p><p class="c">' + soc + '</p><p class="d">' + EVENT.date + '<br>' + EVENT.place + '<br>Entrée enregistrée à ' + esc(d.at) + note + '</p>', true);
+    }).catch(function(){
+      show('err', '<p class="k">Pas de connexion</p><p class="n">Réessayez</p><p class="d">Le billet ' + esc(t) + ' n\'a pas pu être vérifié. Vérifiez le réseau, puis scannez à nouveau ou saisissez le code.</p>', true);
+    });
+  }
+
+  function onScan(text){
+    if (busy) return;
+    busy = true;
+    Promise.resolve(handle(text)).then(function(){
+      clearTimeout(timer);
+      timer = setTimeout(function(){ busy = false; $('hint').textContent = 'Prêt pour le billet suivant'; }, 2200);
+    });
+  }
+
+  $('go').addEventListener('click', function(){
+    var errEl = $('camerr');
+    errEl.textContent = '';
+    if (!window.Html5Qrcode) { errEl.textContent = 'Le module de scan n\'a pas chargé. Vérifiez la connexion, ou saisissez le code ci-dessous.'; return; }
+    qr = qr || new Html5Qrcode('reader');
+    qr.start({ facingMode: 'environment' }, { fps: 10, qrbox: function(w, h){ var s = Math.floor(Math.min(w, h) * 0.64); return { width: s, height: s }; } }, onScan, function(){})
+      .then(function(){ $('start').style.display = 'none'; $('frame').hidden = false; })
+      .catch(function(){ errEl.textContent = 'Accès à la caméra refusé ou indisponible. Autorisez la caméra dans le navigateur, ou saisissez le code ci-dessous.'; });
+  });
+
+  function manual(){
+    var v = $('tok').value.trim();
+    if (!v) { $('tokerr').textContent = 'Entrez le code inscrit sous le QR code.'; $('tok').focus(); return; }
+    $('tokerr').textContent = '';
+    handle(v); $('tok').value = '';
+  }
+  $('check').addEventListener('click', manual);
+  $('tok').addEventListener('keydown', function(e){ if (e.key === 'Enter') manual(); });
+  $('tok').addEventListener('input', function(){ $('tokerr').textContent = ''; });
+
+  $('list').addEventListener('click', function(){
+    show('warn', '<p class="loading">Chargement de la liste…</p>');
+    api({ action: 'presents' }).then(function(d){
+      if (!d.ok) { store(LS_KEY, null); showGate('Entrez le code accueil.'); return; }
+      $('nb').textContent = d.count;
+      if (!d.count) { show('warn', '<p class="k">Présents</p><p class="n">Personne pour l\'instant</p><p class="d">Les entrées scannées apparaîtront ici.</p>'); return; }
+      show('ok', '<p class="k">Présents : ' + d.count + (d.count > d.list.length ? ' (50 derniers)' : '') + '</p><p class="d">'
+        + d.list.map(function(x){ return esc(x.at) + ' - ' + esc(x.name) + (x.societe ? ' (' + esc(x.societe) + ')' : ''); }).join('<br>') + '</p>');
+    }).catch(function(){ show('err', '<p class="k">Pas de connexion</p><p class="d">Impossible de charger la liste. Réessayez.</p>'); });
+  });
+
+  $('logout').addEventListener('click', function(){ store(LS_KEY, null); showGate(''); });
+
+  if (!read(LS_KEY)) showGate('');
+  else api({ action: 'presents' }).then(function(d){
+    if (d.ok) $('nb').textContent = d.count; else { store(LS_KEY, null); showGate('Entrez le code accueil.'); }
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
